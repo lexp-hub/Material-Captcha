@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Captcha Chaos Ultra - Premium Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        var player;
+        function onYouTubeIframeAPIReady() {
+            console.log("YouTube API Ready");
+            player = new YT.Player('youtube-player', {
+                height: '0', 
+                width: '0', 
+                videoId: 'n61ULEU7CO0',
+                playerVars: { 
+                    'autoplay': 0, 
+                    'controls': 0, 
+                    'modestbranding': 1, 
+                    'rel': 0,
+                    'enablejsapi': 1,
+                    'origin': window.location.origin,
+                    'mute': 0
+                },
+                events: {
+                    'onReady': function(event) {
+                        console.log("YouTube Player Ready");
+                        event.target.setVolume(100);
+                    },
+                    'onError': function(e) {
+                        console.error("YouTube Player Error:", e);
+                    }
+                }
+            });
+        }
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="youtube-player" style="display:none"></div>
+
+    <script src="constants.js"></script>
+    <script type="text/babel" src="app.js"></script>
+</body>
+</html>
