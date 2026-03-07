@@ -135,20 +135,25 @@ body {
 
 @media (max-width: 640px) {
     #root {
-        /* Mantenuto a 100vh su mobile per coprire lo schermo, 
-           ma puoi ridurlo a 90vh se vuoi vedere lo sfondo anche qui */
-        height: 100vh;
-        border-radius: 0;
+        /* Ridotta altezza su mobile per non occupare tutto lo schermo */
+        height: 90vh;
+        max-height: 640px;
+        border-radius: 32px;
+        margin: 10px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        background: var(--surface);
     }
     
     .pattern-bg {
-        padding: 1.5rem !important;
-        padding-top: 3rem !important;
-        border-radius: 0 0 40px 40px !important;
+        padding: 1rem !important;
+        padding-top: 2rem !important;
+        border-radius: 0 0 30px 30px !important;
     }
 
-    .text-3xl { font-size: 1.5rem; }
-    .text-4xl { font-size: 1.875rem; }
-    .p-10 { padding: 1.5rem; }
-    .p-16 { padding: 2rem; }
+    /* Riduzione spazi interni per guadagnare spazio Y */
+    .p-10 { padding: 1.25rem; }
+    .p-16 { padding: 1.5rem; }
+    
+    .text-3xl { font-size: 1.25rem; }
+    .text-4xl { font-size: 1.5rem; }
 }
