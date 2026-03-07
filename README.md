@@ -10,15 +10,18 @@
 
 ### 🎮 Modalità di Gioco
 
-Il gioco include 6 modalità uniche per testare diverse abilità cognitive:
+Il gioco include 9 modalità per testare abilità diverse:
 
-* **🔍 Ricerca (HUNT):** Seleziona tutte le icone specifiche in una griglia.
-* **🔄 Allineamento (ROTATE):** Ruota le icone finché non sono tutte orientate correttamente.
-* **🕵️ L'Intruso (ODD):** Identifica l'unica icona diversa tra una folla di simili.
-* **⚡ Click Rapido (SPEED):** Tocca l'icona prima che scompaia!
-* **🧠 Memoria (MEMORY):** Ricorda la posizione dell'icona target dopo che è stata nascosta.
-* **🔀 Mix Caotico (MIX):** Una rotazione casuale di tutte le modalità precedenti per i veri esperti.
-
+- 🔍 **Ricerca (HUNT):** Seleziona tutte le icone specifiche in una griglia.  
+- 🔄 **Allineamento (ROTATE):** Ruota le icone finché non sono tutte orientate correttamente.  
+- 🕵️ **L’Intruso (ODD):** Identifica l’unica icona diversa tra molte simili.  
+- ⚡ **Click Rapido (SPEED):** Tocca l’icona prima che scompaia.  
+- 🧠 **Memoria (MEMORY):** Ricorda la posizione dell’icona target dopo che viene nascosta.  
+- ✨ **Flash (FLASH):** Guarda le icone che lampeggiano e seleziona quelle mostrate.  
+- 🧩 **Coppie (PAIRS):** Scopri le tessere e abbina le coppie uguali.  
+- 📑 **Sequenza (SEQUENCE):** Riproduci l’ordine di icone mostrato all’inizio.  
+- 🪂 **Scivolo (SLIDE):** Tocca le icone che cadono prima che raggiungano il fondo.  
+- 🔀 **Mix Caotico (MIX):** Un mix casuale di tutte le modalità per i veri esperti.
 
 ## ✨ Caratteristiche Principali
 
