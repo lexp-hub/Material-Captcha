@@ -182,7 +182,7 @@ function App() {
                 if (tile.rotation) ctx.rotate(tile.rotation * Math.PI / 180);
                 const path = new Path2D(ICON_DATA[tile.iconType]);
                 ctx.strokeStyle = tile.selected ? '#6750A4' : '#49454F';
-                ctx.lineWidth = 2.5;
+                ctx.lineWidth = 2.2;
                 ctx.lineCap = 'round';
                 ctx.scale(1.4, 1.4);
                 ctx.translate(-12, -12);
