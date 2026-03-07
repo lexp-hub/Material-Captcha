@@ -10,11 +10,11 @@ const ICON_DATA = {
     star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
     heart: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z",
     rocket: "M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.71-2.13.09-2.91a2.18 2.18 0 0 0-3.09-.09z M12 15l-3-3m3 3l2 2m-2-2l2-2 M20 4s-7 0-10 10l2 2c10-3 10-10 10-10z",
-    // nuove icone semplici e riconoscibili perché le altre erano poche e facevano schifo. This was a pain in the ass to make dio santo
+    // nuove icone semplici e riconoscibili
     sun: "M12 4V2M12 22v-2M4.22 4.22 5.64 5.64M18.36 18.36 19.78 19.78M2 12h2M20 12h2M4.22 19.78 5.64 18.36M18.36 5.64 19.78 4.22M12 8a4 4 0 1 1 0 8a4 4 0 0 1 0-8z",
     cloud: "M17.5 19a4.5 4.5 0 0 0-.5-9h-1A6 6 0 1 0 7 15h10.5z",
     camera: "M5 7h14l-2 12H7L5 7z M9 5h6l1 2H8l1-2z M12 11a3 3 0 1 1 0 6a3 3 0 0 1 0-6",
-    chat: "M20 15a5 5 0 0 1-5 5H9l-4 3v-7a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5z",
+    chat: "M21 11.5a8.38 8.38 0 0 1-1.9 5.4 8.5 8.5 0 0 1-6.6 3.1 8.38 8.38 0 0 1-5.4-1.9L3 21l1.9-4.1A8.38 8.38 0 0 1 3 11.5a8.5 8.5 0 0 1 3.1-6.6 8.38 8.38 0 0 1 5.4-1.9 8.5 8.5 0 0 1 6.6 3.1 8.38 8.38 0 0 1 1.9 5.4Z",
     phone: "M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.36 2.3.56 3.6.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C12.6 21 3 11.4 3 3a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.3.2 2.5.56 3.6a1 1 0 0 1-.24 1z",
     triangle: "M12 3l9 18H3z",
     hexagon: "M21 12l-4 7h-8l-4-7l4-7h8z",
@@ -27,7 +27,7 @@ const LABELS = {
     car: 'Auto', bus: 'Bus', bike: 'Bici', traffic: 'Semafori',
     plane: 'Aerei', gem: 'Gemme', ghost: 'Fantasmi',
     moon: 'Lune', star: 'Stelle', heart: 'Cuori', rocket: 'Razzi',
-    sun: 'Soli', cloud: 'Nuvole', camera: 'Camera', chat: 'Chat',
+    sun: 'Soli', cloud: 'Nuvole', camera: 'Camera', bell: 'Campane', chat: 'Chat',
     phone: 'Telefono', triangle: 'Triangoli', hexagon: 'Esagoni',
     battery: 'Batterie', calendar: 'Calendari', tag: 'Etichette'
 };
