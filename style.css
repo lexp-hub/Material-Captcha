@@ -20,7 +20,7 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     overflow-x: hidden;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -31,7 +31,7 @@ body {
 
 #root {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -50,6 +50,8 @@ body {
 
 .app-main {
     width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
 .menu-grid .game-card {
@@ -57,14 +59,18 @@ body {
 }
 
 @media (min-width: 1024px) {
+    main.app-main {
+        overflow: visible !important;
+    }
     #root {
-        height: 92vh;
-        max-height: 1000px;
-        padding: 0;
+        height: auto;
+        min-height: 100vh;
+        max-height: none;
+        padding: 20px 24px 40px;
         border-radius: 32px;
         background: var(--surface);
         box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
-        overflow: hidden;
+        overflow: visible;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 }
