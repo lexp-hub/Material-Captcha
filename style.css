@@ -14,7 +14,6 @@
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    /* Sfondo bianco/grigio chiaro */
     background-color: #F7F2FA;
     color: var(--on-surface);
     margin: 0;
@@ -33,8 +32,7 @@ body {
 #root {
     width: 100%;
     max-width: 1200px;
-    /* Ridotta altezza per rendere il pannello più compatto */
-    height: 85vh; 
+    height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -42,17 +40,32 @@ body {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.app-shell {
+    min-height: 100vh;
+}
+
+.mobile-header {
+    transition: padding 0.3s ease, border-radius 0.3s ease, box-shadow 0.3s ease;
+}
+
+.app-main {
+    width: 100%;
+}
+
+.menu-grid .game-card {
+    scroll-snap-align: start;
+}
+
 @media (min-width: 1024px) {
     #root {
-        /* Ridotta altezza massima per desktop */
-        height: 80vh;
-        max-height: 850px;
+        height: 92vh;
+        max-height: 1000px;
         padding: 0;
         border-radius: 32px;
         background: var(--surface);
-        box-shadow: 0 40px 100px rgba(103, 80, 164, 0.15);
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
         overflow: hidden;
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 }
 
@@ -135,25 +148,45 @@ body {
 
 @media (max-width: 640px) {
     #root {
-        /* Ridotta altezza su mobile per non occupare tutto lo schermo */
-        height: 90vh;
-        max-height: 640px;
-        border-radius: 32px;
-        margin: 10px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-        background: var(--surface);
+        height: auto;
+        min-height: 100vh;
+        max-width: 100%;
+        border-radius: 0;
     }
-    
+    body {
+        align-items: stretch;
+    }
+    .app-shell {
+        padding-bottom: 24px;
+    }
     .pattern-bg {
-        padding: 1rem !important;
-        padding-top: 2rem !important;
-        border-radius: 0 0 30px 30px !important;
+        padding: 1.25rem 1rem 2.4rem !important;
+        border-radius: 0 0 28px 28px !important;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    }
+    .mobile-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+    main.app-main {
+        padding: 0 0.9rem !important;
+        margin-top: -14px;
+    }
+    .menu-grid {
+        gap: 0.9rem !important;
+        padding-bottom: 1.5rem;
+    }
+    .menu-grid .game-card {
+        border-radius: 20px;
+    }
+    .game-card {
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
     }
 
-    /* Riduzione spazi interni per guadagnare spazio Y */
-    .p-10 { padding: 1.25rem; }
-    .p-16 { padding: 1.5rem; }
-    
-    .text-3xl { font-size: 1.25rem; }
-    .text-4xl { font-size: 1.5rem; }
+    .text-3xl { font-size: 1.5rem; }
+    .text-4xl { font-size: 1.875rem; }
+    .p-10 { padding: 1.5rem; }
+    .p-16 { padding: 2rem; }
+    button, .game-card { touch-action: manipulation; }
 }
