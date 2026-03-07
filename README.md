@@ -1,4 +1,4 @@
-# 🛡️ Captcha Chaos Ultra — Premium Edition 
+# 🛡️ Captcha Chaos Ultra 
 (veramente un fantastico nome XD, mi ricorda i nomi dei smartphone nel 2019 )
 
 > **"Sei un robot o un umano?"** Metti alla prova i tuoi riflessi e la tua velocità mentale in una sfida ispirata ai test CAPTCHA più famosi, trasformati in un gioco arcade frenetico.
