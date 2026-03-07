@@ -370,6 +370,10 @@ function App() {
             if(currentGameType === 'HUNT'){
                 const idx = tilesCopy.findIndex(t => t.id === clickedId);
                 if (idx >= 0) tilesCopy[idx].selected = !tilesCopy[idx].selected;
+                const solved = tilesCopy.every(t => (t.isTarget && t.selected) || (!t.isTarget && !t.selected));
+                if (solved) {
+                    handleWin();
+                }
                 return { ...prev, tiles: tilesCopy };
             } else if(currentGameType === 'ROTATE'){
                 const idx = tilesCopy.findIndex(t => t.id === clickedId);
@@ -499,9 +503,6 @@ function App() {
                             </div>
                         </div>
                         <div className="lg:w-96 flex flex-col gap-4 sm:gap-8 mb-10 sm:mb-0">
-                            {currentGameType === 'HUNT' && (
-                                <button onClick={() => { if(gameData.tiles.every(t => (t.isTarget && t.selected) || (!t.isTarget && !t.selected))) handleWin(); else setTimer(t => Math.max(0, t-5)); }} className="w-full bg-[#6750A4] text-white py-5 sm:py-8 rounded-[20px] sm:rounded-[32px] font-black text-xl sm:text-3xl shadow-xl active:scale-95 transition-all uppercase">Verifica</button>
-                            )}
                             <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6 bg-white/80 backdrop-blur-md p-4 sm:p-8 rounded-[32px] sm:rounded-[48px] shadow-xl">
                                 <div className="flex items-center justify-between p-3 sm:p-6 bg-purple-50/50 rounded-2xl sm:rounded-3xl">
                                     <div><p className="text-[10px] sm:text-xs font-black text-purple-400 uppercase tracking-widest">Livello</p><p className="text-2xl sm:text-4xl font-black text-[#21005D]">{level}</p></div>
