@@ -10,7 +10,7 @@ const ICON_DATA = {
     star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
     heart: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z",
     rocket: "M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.71-2.13.09-2.91a2.18 2.18 0 0 0-3.09-.09z M12 15l-3-3m3 3l2 2m-2-2l2-2 M20 4s-7 0-10 10l2 2c10-3 10-10 10-10z",
-    // nuove icone semplici e riconoscibili
+    // nuove icone semplici e riconoscibili perché le altre erano poche e facevano schifo. This was a pain in the ass to make dio santo
     sun: "M12 4V2M12 22v-2M4.22 4.22 5.64 5.64M18.36 18.36 19.78 19.78M2 12h2M20 12h2M4.22 19.78 5.64 18.36M18.36 5.64 19.78 4.22M12 8a4 4 0 1 1 0 8a4 4 0 0 1 0-8z",
     cloud: "M17.5 19a4.5 4.5 0 0 0-.5-9h-1A6 6 0 1 0 7 15h10.5z",
     camera: "M5 7h14l-2 12H7L5 7z M9 5h6l1 2H8l1-2z M12 11a3 3 0 1 1 0 6a3 3 0 0 1 0-6",
