@@ -14,8 +14,7 @@
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    /* Modificato da #0F0F12 a var(--surface) come richiesto */
-    background-color: var(--surface);
+    background-color: #0F0F12;
     color: var(--on-surface);
     margin: 0;
     min-height: 100vh;
@@ -32,13 +31,47 @@ body {
 
 #root {
     width: 100%;
-    max-width: 480px;
+    max-width: 1200px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: transparent;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1024px) {
+    #root {
+        height: 92vh;
+        max-height: 1000px;
+        padding: 0;
+        border-radius: 32px;
+        background: var(--surface);
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+.pattern-bg {
+    background: linear-gradient(135deg, #6750A4 0%, #433685 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.pattern-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at 2px 2px, rgba(255,255,255,0.1) 1px, transparent 0);
+    background-size: 24px 24px;
 }
 
 .glass-panel {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     transition: all 0.3s ease;
@@ -81,9 +114,36 @@ body {
     display: flex;
     align-items: center;
     gap: 3px;
+    height: 20px;
 }
 
-/* Ottimizzazione touch targets */
-button, .cursor-pointer {
-    touch-action: manipulation;
+.bar {
+    width: 3px;
+    height: 100%;
+    background: #4ade80;
+    border-radius: 10px;
+    animation: bounce 0.8s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { height: 4px; }
+    50% { height: 18px; }
+}
+
+@media (max-width: 640px) {
+    #root {
+        height: 100vh;
+        border-radius: 0;
+    }
+    
+    .pattern-bg {
+        padding: 1.5rem !important;
+        padding-top: 3rem !important;
+        border-radius: 0 0 40px 40px !important;
+    }
+
+    .text-3xl { font-size: 1.5rem; }
+    .text-4xl { font-size: 1.875rem; }
+    .p-10 { padding: 1.5rem; }
+    .p-16 { padding: 2rem; }
 }
