@@ -168,11 +168,17 @@ function App() {
         gameData.tiles.forEach(tile => {
             ctx.save();
             const flashing = tile.flash;
-            ctx.fillStyle = flashing ? '#E5DEFF' : (tile.selected ? '#F0E7F6' : (tile.hidden ? '#F5F5F5' : '#FFFFFF'));
-            ctx.beginPath();
-            ctx.roundRect(tile.x, tile.y, tile.w, tile.h, 20);
-            ctx.fill();
-            if (tile.selected) {
+            // background: only show when hidden or selected to avoid white tiles
+            if (tile.hidden) {
+                ctx.fillStyle = flashing ? '#E5DEFF' : '#F5F5F5';
+                ctx.beginPath();
+                ctx.roundRect(tile.x, tile.y, tile.w, tile.h, 18);
+                ctx.fill();
+            } else if (tile.selected) {
+                ctx.fillStyle = '#F0E7F6';
+                ctx.beginPath();
+                ctx.roundRect(tile.x, tile.y, tile.w, tile.h, 18);
+                ctx.fill();
                 ctx.strokeStyle = '#6750A4';
                 ctx.lineWidth = 3;
                 ctx.stroke();
@@ -253,7 +259,7 @@ function App() {
             const speedSize = 70;
             tiles.push({ id: 0, iconType: icon, isTarget: true, x: Math.random()*(rect.width-speedSize), y: Math.random()*(rect.height-speedSize), w: speedSize, h: speedSize });
             setGameData({ tiles, targetLabel: 'Tocca l\'icona prima che sia tardi!' });
-            const exposure = Math.max(200, 800 - lvl*60);
+            const exposure = Math.max(600, 1500 - lvl*60);
             const to = setTimeout(() => { if(view === 'game' && currentGameType === 'SPEED') generateLevel(type); }, exposure);
             sequenceTimers.current.push(to);
         } else if (type === 'MEMORY') {
@@ -285,13 +291,25 @@ function App() {
             });
             sequenceTimers.current.push(setTimeout(() => setGameData(d => ({ ...d, showingSequence: false })), sequenceLength*600 + 50));
         } else if (type === 'SLIDE') {
-            const count = Math.min(10, 3 + Math.floor(lvl/2));
-            const baseSpeed = 1.2 + lvl * 0.25;
-            const fallSize = Math.max(48, 68 - lvl * 2);
+            const count = Math.min(7, 3 + Math.floor(lvl/3));
+            const baseSpeed = 1 + lvl * 0.18;
+            const fallSize = Math.max(52, 70 - lvl * 1.5);
             const goal = count + 2;
-            for(let i=0; i<count; i++){
-                tiles.push({ id: i, iconType: icons[Math.floor(Math.random()*icons.length)], y: -Math.random()*200, x: Math.random()*(rect.width-fallSize), w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
-            }
+            const placeTile = (id) => {
+                let attempts = 0;
+                while (attempts < 20) {
+                    const x = Math.random() * (rect.width - fallSize);
+                    const y = -Math.random() * 200;
+                    const overlaps = tiles.some(t => Math.abs(t.x - x) < fallSize + 8 && Math.abs(t.y - y) < fallSize + 8);
+                    if (!overlaps) {
+                        tiles.push({ id, iconType: icons[Math.floor(Math.random()*icons.length)], y, x, w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
+                        return;
+                    }
+                    attempts++;
+                }
+                tiles.push({ id, iconType: icons[Math.floor(Math.random()*icons.length)], y: -Math.random()*200, x: Math.random()*(rect.width-fallSize), w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
+            };
+            for(let i=0; i<count; i++) placeTile(i);
             const gameState = { tiles, targetLabel: 'Tocca le icone in caduta!', slideHits: 0, slideGoal: goal, slideCount: count };
             setGameData(gameState);
             const step = () => {
@@ -306,7 +324,20 @@ function App() {
                         return true;
                     });
                     while (filtered.length < count) {
-                        filtered.push({ id: Math.random(), iconType: icons[Math.floor(Math.random()*icons.length)], y: -Math.random()*150, x: Math.random()*(rect.width-fallSize), w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
+                        const id = Math.random();
+                        let attempts = 0;
+                        let placed = false;
+                        while (attempts < 20 && !placed) {
+                            const x = Math.random() * (rect.width - fallSize);
+                            const y = -Math.random() * 150;
+                            const overlaps = filtered.some(t => Math.abs(t.x - x) < fallSize + 8 && Math.abs(t.y - y) < fallSize + 8);
+                            if (!overlaps) {
+                                filtered.push({ id, iconType: icons[Math.floor(Math.random()*icons.length)], y, x, w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
+                                placed = true;
+                            }
+                            attempts++;
+                        }
+                        if (!placed) filtered.push({ id, iconType: icons[Math.floor(Math.random()*icons.length)], y: -Math.random()*150, x: Math.random()*(rect.width-fallSize), w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
                     }
                     if (penalize) setTimer(cur => Math.max(0, cur - 8));
                     return { ...d, tiles: filtered };
