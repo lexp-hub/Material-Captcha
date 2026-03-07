@@ -285,86 +285,105 @@ function App() {
             });
             sequenceTimers.current.push(setTimeout(() => setGameData(d => ({ ...d, showingSequence: false })), sequenceLength*600 + 50));
         } else if (type === 'SLIDE') {
-            const count = Math.min(8, 2 + Math.floor(lvl/2));
-            const baseSpeed = 1 + lvl * 0.2;
+            const count = Math.min(10, 3 + Math.floor(lvl/2));
+            const baseSpeed = 1.2 + lvl * 0.25;
+            const fallSize = Math.max(48, 68 - lvl * 2);
+            const goal = count + 2;
             for(let i=0; i<count; i++){
-                const fallSize = 60;
                 tiles.push({ id: i, iconType: icons[Math.floor(Math.random()*icons.length)], y: -Math.random()*200, x: Math.random()*(rect.width-fallSize), w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
             }
-            const gameState = { tiles, targetLabel: 'Tocca le icone in caduta!' };
+            const gameState = { tiles, targetLabel: 'Tocca le icone in caduta!', slideHits: 0, slideGoal: goal, slideCount: count };
             setGameData(gameState);
             const step = () => {
                 setGameData(d => {
                     const updated = d.tiles.map(t => ({ ...t, y: t.y + t.speed }));
-                    let newTimer = null;
+                    let penalize = false;
                     const filtered = updated.filter(t => {
                         if (t.y + t.h >= rect.height) {
-                            newTimer = (cur) => Math.max(0, cur - 6);
+                            penalize = true;
                             return false;
                         }
                         return true;
                     });
                     while (filtered.length < count) {
-                        const fallSize = 60;
                         filtered.push({ id: Math.random(), iconType: icons[Math.floor(Math.random()*icons.length)], y: -Math.random()*150, x: Math.random()*(rect.width-fallSize), w: fallSize, h: fallSize, speed: baseSpeed + Math.random(), isTarget: true });
                     }
-                    if (newTimer) setTimer(newTimer);
+                    if (penalize) setTimer(cur => Math.max(0, cur - 8));
                     return { ...d, tiles: filtered };
                 });
-                drawCanvas();
                 slideAnim.current = requestAnimationFrame(step);
             };
             slideAnim.current = requestAnimationFrame(step);
         }
     };
 
-    const handleCanvasClick = (e) => {
+    const handleCanvasPointer = (e) => {
+        e.preventDefault();
         if (!canvasRef.current) return;
         const rect = canvasRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const newTiles = [...gameData.tiles];
-        let clickedId = -1;
-        newTiles.forEach(t => {
-            if(x >= t.x && x <= t.x+t.w && y >= t.y && y <= t.y+t.h) clickedId = t.id;
-        });
-        if(clickedId === -1) return;
-        if(currentGameType === 'SEQUENCE'){
-            if (gameData.showingSequence) return;
-            const expected = gameData.sequence[gameData.step];
-            if (clickedId === expected) {
-                if (gameData.step + 1 === gameData.sequence.length) {
-                    handleWin();
+        const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX);
+        const clientY = e.clientY ?? (e.touches && e.touches[0]?.clientY);
+        if (clientX === undefined || clientY === undefined) return;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+
+        setGameData(prev => {
+            const tilesCopy = prev.tiles.map(t => ({ ...t }));
+            let clickedId = -1;
+            tilesCopy.forEach(t => {
+                if(x >= t.x && x <= t.x+t.w && y >= t.y && y <= t.y+t.h) clickedId = t.id;
+            });
+            if(clickedId === -1) return prev;
+
+            if(currentGameType === 'SEQUENCE'){
+                if (prev.showingSequence) return prev;
+                const expected = prev.sequence[prev.step];
+                if (clickedId === expected) {
+                    if (prev.step + 1 === prev.sequence.length) {
+                        handleWin();
+                        return prev;
+                    }
+                    return { ...prev, step: prev.step + 1 };
                 } else {
-                    setGameData(d => ({ ...d, step: d.step + 1 }));
+                    setTimer(t => Math.max(0, t - 10));
+                    generateLevel('SEQUENCE');
+                    return prev;
                 }
+            }
+
+            if(currentGameType === 'SLIDE'){
+                const remaining = tilesCopy.filter(t => t.id !== clickedId);
+                if (remaining.length !== tilesCopy.length) {
+                    const nextHits = (prev.slideHits || 0) + 1;
+                    const goal = prev.slideGoal || 8;
+                    setScore(s => s + 30 + (level * 5));
+                    setTimer(t => Math.min(50, t + 2));
+                    if (nextHits >= goal) {
+                        handleWin();
+                        return { ...prev, tiles: remaining, slideHits: nextHits };
+                    }
+                    return { ...prev, tiles: remaining, slideHits: nextHits };
+                }
+                return prev;
+            }
+
+            if(currentGameType === 'HUNT'){
+                const idx = tilesCopy.findIndex(t => t.id === clickedId);
+                if (idx >= 0) tilesCopy[idx].selected = !tilesCopy[idx].selected;
+                return { ...prev, tiles: tilesCopy };
+            } else if(currentGameType === 'ROTATE'){
+                const idx = tilesCopy.findIndex(t => t.id === clickedId);
+                if (idx >= 0) tilesCopy[idx].rotation = (tilesCopy[idx].rotation + 90) % 360;
+                const allAligned = tilesCopy.every(t => t.rotation === 0);
+                if (allAligned) setTimeout(handleWin, 150);
+                return { ...prev, tiles: tilesCopy };
             } else {
-                setTimer(t => Math.max(0, t - 10));
-                setGameData(d => ({ ...d, step: 0, showingSequence: true }));
-                generateLevel('SEQUENCE');
+                const clickedTile = tilesCopy.find(t => t.id === clickedId);
+                if (clickedTile?.isTarget) handleWin();
+                else setTimer(t => Math.max(0, t - 4));
+                return prev;
             }
-            return;
-        }
-        if(currentGameType === 'SLIDE'){
-            const remaining = newTiles.filter(t => t.id !== clickedId);
-            if (remaining.length !== newTiles.length) {
-                setScore(s => s + 30 + (level * 5));
-                setTimer(t => Math.min(50, t + 2));
-                setGameData(d => ({ ...d, tiles: remaining }));
-            }
-            return;
-        }
-        if(currentGameType === 'HUNT'){
-            newTiles[clickedId].selected = !newTiles[clickedId].selected;
-            setGameData({...gameData, tiles: newTiles});
-        } else if(currentGameType === 'ROTATE'){
-            newTiles[clickedId].rotation = (newTiles[clickedId].rotation + 90) % 360;
-            setGameData({...gameData, tiles: newTiles});
-            if(newTiles.every(t => t.rotation === 0)) setTimeout(handleWin, 150);
-        } else {
-            if(newTiles[clickedId].isTarget) handleWin();
-            else setTimer(t => Math.max(0, t - 4));
-        }
+        });
     };
 
     const handleWin = () => {
@@ -470,7 +489,11 @@ function App() {
                                 </div>
                                 <div className="p-4 sm:p-10 bg-gray-50/50 flex justify-center">
                                     <div className="w-full max-w-[550px] aspect-square relative rounded-[24px] sm:rounded-[40px] overflow-hidden border-[6px] sm:border-[12px] border-white shadow-2xl">
-                                        <canvas id="game-canvas" ref={canvasRef} onClick={handleCanvasClick} className="w-full h-full cursor-pointer bg-white" />
+                                        <canvas
+                                            id="game-canvas"
+                                            ref={canvasRef}
+                                            onPointerDown={handleCanvasPointer}
+                                            className="w-full h-full cursor-pointer bg-white" />
                                     </div>
                                 </div>
                             </div>
