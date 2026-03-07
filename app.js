@@ -168,9 +168,14 @@ function App() {
         gameData.tiles.forEach(tile => {
             ctx.save();
             const flashing = tile.flash;
-            // background: only show when hidden or selected to avoid white tiles
-            if (tile.hidden) {
-                ctx.fillStyle = flashing ? '#E5DEFF' : '#F5F5F5';
+            // background: only when needed (hidden/selected/flash)
+            if (flashing) {
+                ctx.fillStyle = tile.flashColor || '#D7FBE8';
+                ctx.beginPath();
+                ctx.roundRect(tile.x, tile.y, tile.w, tile.h, 18);
+                ctx.fill();
+            } else if (tile.hidden) {
+                ctx.fillStyle = '#F5F5F5';
                 ctx.beginPath();
                 ctx.roundRect(tile.x, tile.y, tile.w, tile.h, 18);
                 ctx.fill();
@@ -274,6 +279,56 @@ function App() {
                 setGameData(d => ({ ...d, tiles: d.tiles.map((t, idx) => idx === targetIdx ? {...t, hidden: false} : t) }));
                 sequenceTimers.current.push(setTimeout(() => setGameData(d => ({ ...d, tiles: d.tiles.map(t => ({...t, hidden: true})) })), exposure));
             }, 250));
+        } else if (type === 'FLASH') {
+            for(let i=0; i<gridSide*gridSide; i++){
+                tiles.push({ id: i, iconType: icons[Math.floor(Math.random()*icons.length)], x: margin + (i%gridSide)*(size+margin), y: margin + Math.floor(i/gridSide)*(size+margin), w: size, h: size });
+            }
+            const targetCount = Math.min(5, 2 + Math.floor(lvl/3));
+            const chosen = new Set();
+            while (chosen.size < targetCount) chosen.add(Math.floor(Math.random()*tiles.length));
+            tiles = tiles.map((t, idx) => chosen.has(idx) ? {...t, isTarget: true, flash: true, flashColor: '#C4F5D4'} : t);
+            setGameData({ tiles, targetLabel: 'Ricorda i lampeggi e selezionali', showingSequence: true });
+            const off = setTimeout(() => setGameData(d => ({ ...d, tiles: d.tiles.map(t => ({ ...t, flash: false })), showingSequence: false })), 1500);
+            sequenceTimers.current.push(off);
+        } else if (type === 'PAIRS') {
+            const side = Math.min(6, Math.max(5, 4 + Math.floor(lvl/4)));
+            const pairSize = (rect.width - margin * (side + 1)) / side;
+            let cells = side * side;
+            if (cells % 2 !== 0) cells -= 1; // ensure even for pairs
+            const pairCount = Math.min(icons.length, cells / 2);
+            const shuffledIcons = [...icons];
+            for(let i=shuffledIcons.length-1;i>0;i--){
+                const j=Math.floor(Math.random()*(i+1));
+                [shuffledIcons[i], shuffledIcons[j]]=[shuffledIcons[j], shuffledIcons[i]];
+            }
+            const pickIcons = shuffledIcons.slice(0, pairCount);
+            cells = pairCount * 2; // use exactly the needed cells
+            const pool = [];
+            pickIcons.forEach((icon, idx) => {
+                pool.push({ iconType: icon, pairId: idx });
+                pool.push({ iconType: icon, pairId: idx });
+            });
+            // shuffle
+            for(let i=pool.length-1;i>0;i--){
+                const j=Math.floor(Math.random()*(i+1));
+                [pool[i], pool[j]]=[pool[j], pool[i]];
+            }
+            for(let i=0;i<cells;i++){
+                const c = pool[i];
+                const x = margin + (i%side)*(pairSize+margin);
+                const y = margin + Math.floor(i/side)*(pairSize+margin);
+                tiles.push({ id: i, iconType: c.iconType, pairId: c.pairId, hidden: true, x, y, w: pairSize, h: pairSize });
+            }
+            // preview: mostra tutte le tessere per pochi secondi
+            setGameData({ tiles: tiles.map(t => ({ ...t, hidden: false })), targetLabel: 'Abbina le coppie uguali', pairsFirst: null, pairsLocked: true, pairsFound: 0, pairsSide: side });
+            const previewTimeout = setTimeout(() => {
+                setGameData(d => ({
+                    ...d,
+                    pairsLocked: false,
+                    tiles: d.tiles.map(t => ({ ...t, hidden: true }))
+                }));
+            }, 1500);
+            sequenceTimers.current.push(previewTimeout);
         } else if (type === 'SEQUENCE') {
             const sequenceLength = Math.min(6, 3 + Math.floor(lvl/2));
             for(let i=0; i<gridSide*gridSide; i++){
@@ -382,6 +437,49 @@ function App() {
                 }
             }
 
+            if(currentGameType === 'FLASH'){
+                if (prev.showingSequence) return prev;
+                const idx = tilesCopy.findIndex(t => t.id === clickedId);
+                if (idx >= 0) tilesCopy[idx].selected = !tilesCopy[idx].selected;
+                const solved = tilesCopy.every(t => (t.isTarget ? t.selected : !t.selected));
+                if (solved) handleWin(); else setTimer(t => Math.max(0, t - 2));
+                return { ...prev, tiles: tilesCopy };
+            }
+
+            if(currentGameType === 'PAIRS'){
+                if (prev.pairsLocked) return prev;
+                const idx = tilesCopy.findIndex(t => t.id === clickedId);
+                if (idx < 0 || !tilesCopy[idx].hidden) return prev;
+                tilesCopy[idx].hidden = false;
+                if (prev.pairsFirst === null) {
+                    return { ...prev, tiles: tilesCopy, pairsFirst: clickedId };
+                }
+                const firstId = prev.pairsFirst;
+                const firstTile = tilesCopy.find(t => t.id === firstId);
+                if (!firstTile) return prev;
+                if (firstTile.pairId === tilesCopy[idx].pairId) {
+                    const found = (prev.pairsFound || 0) + 1;
+                    if (found === (tilesCopy.filter(t => t.pairId !== undefined).length / 2)) {
+                        handleWin();
+                        return { ...prev, tiles: tilesCopy, pairsFirst: null, pairsFound: found };
+                    }
+                    return { ...prev, tiles: tilesCopy, pairsFirst: null, pairsFound: found };
+                } else {
+                    // mismatch -> brief show then hide
+                    const lockState = { ...prev, tiles: tilesCopy, pairsFirst: null, pairsLocked: true };
+                    const hideTimeout = setTimeout(() => {
+                        setGameData(d => ({
+                            ...d,
+                            pairsLocked: false,
+                            tiles: d.tiles.map(t => (t.id === clickedId || t.id === firstId) ? { ...t, hidden: true } : t)
+                        }));
+                    }, 600);
+                    sequenceTimers.current.push(hideTimeout);
+                    setTimer(t => Math.max(0, t - 3));
+                    return lockState;
+                }
+            }
+
             if(currentGameType === 'SLIDE'){
                 const remaining = tilesCopy.filter(t => t.id !== clickedId);
                 if (remaining.length !== tilesCopy.length) {
@@ -456,7 +554,7 @@ function App() {
         setTimer(30);
         setLevel(1);
         setView('game');
-        setTimeout(() => generateLevel(m), 100);
+        setTimeout(() => generateLevel(m, 1), 100);
     };
 
     const saveProfile = () => {
