@@ -24,5 +24,7 @@ const MODES = {
     ODD: { name: 'L\'Intruso', icon: 'search', desc: 'Trova l\'icona diversa' },
     SPEED: { name: 'Click Rapido', icon: 'zap', desc: 'Tocca prima che sparisca' },
     MEMORY: { name: 'Memoria', icon: 'brain', desc: 'Ricorda la posizione' },
+    SEQUENCE: { name: 'Sequenza', icon: 'list-ordered', desc: 'Riproduci l\'ordine mostrato' },
+    SLIDE: { name: 'Scivolo', icon: 'arrow-down-circle', desc: 'Tocca le icone in caduta' },
     MIX: { name: 'Mix Caotico', icon: 'shuffle', desc: 'Sottogiochi casuali!' }
 };
