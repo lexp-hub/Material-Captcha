@@ -62,6 +62,7 @@ function App() {
                 if (parsed.timer !== undefined) setTimer(parsed.timer);
                 if (parsed.level !== undefined) setLevel(parsed.level);
                 if (parsed.gameData) setGameData(parsed.gameData);
+                if (parsed.bestScores) setBestScores(parsed.bestScores);
             } catch (e) {
                 console.error('Errore nel ripristino dello stato', e);
             }
@@ -77,14 +78,15 @@ function App() {
             score,
             timer,
             level,
-            gameData
+            gameData,
+            bestScores
         };
         try {
             localStorage.setItem('captcha_ultra_state', JSON.stringify(stateToPersist));
         } catch (e) {
             console.error('Impossibile salvare lo stato locale', e);
         }
-    }, [view, activeMode, currentGameType, score, timer, level, gameData]);
+    }, [view, activeMode, currentGameType, score, timer, level, gameData, bestScores]);
 
     const getYouTubeId = (url) => {
         try {
@@ -272,6 +274,17 @@ function App() {
         localStorage.setItem('captcha_ultra_scores', JSON.stringify(newBests));
     };
 
+    const handleExit = () => {
+        clearInterval(timerInterval.current);
+        const currentMode = activeMode || 'MIX';
+        if (score > 0 && currentMode) {
+            const newBests = { ...bestScores, [currentMode]: Math.max(bestScores[currentMode] || 0, score) };
+            setBestScores(newBests);
+            localStorage.setItem('captcha_ultra_scores', JSON.stringify(newBests));
+        }
+        setView('menu');
+    };
+
     const startGame = (m) => {
         setActiveMode(m);
         setScore(0);
@@ -365,7 +378,7 @@ function App() {
                                     <i data-lucide="award" className="hidden sm:block w-6 h-6 text-green-500"></i>
                                 </div>
                             </div>
-                            <button onClick={() => setView('menu')} className="w-full py-2 sm:py-4 text-gray-400 font-bold flex items-center justify-center gap-2 uppercase text-[10px] tracking-widest hover:text-red-400">Esci</button>
+                            <button onClick={handleExit} className="w-full py-2 sm:py-4 text-gray-400 font-bold flex items-center justify-center gap-2 uppercase text-[10px] tracking-widest hover:text-red-400">Esci</button>
                         </div>
                     </div>
                 )}
@@ -376,7 +389,7 @@ function App() {
                         <h2 className="text-2xl sm:text-5xl font-black text-[#21005D] mb-2 sm:mb-4">Ottimo Lavoro!</h2>
                         <p className="text-sm sm:text-xl text-gray-500 mb-8 sm:mb-12">Punteggio finale:</p>
                         <div className="text-6xl sm:text-9xl font-black text-[#6750A4] mb-10 sm:mb-16 tracking-tighter">{score}</div>
-                        <button onClick={() => setView('menu')} className="w-full bg-[#21005D] text-white py-5 sm:py-8 rounded-[20px] sm:rounded-[32px] font-black text-lg sm:text-2xl active:scale-95 transition-all shadow-xl uppercase">Continua</button>
+                        <button onClick={handleExit} className="w-full bg-[#21005D] text-white py-5 sm:py-8 rounded-[20px] sm:rounded-[32px] font-black text-lg sm:text-2xl active:scale-95 transition-all shadow-xl uppercase">Continua</button>
                     </div>
                 )}
             </main>
