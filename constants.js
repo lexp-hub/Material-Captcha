@@ -9,13 +9,25 @@ const ICON_DATA = {
     moon: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
     star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
     heart: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z",
-    rocket: "M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.71-2.13.09-2.91a2.18 2.18 0 0 0-3.09-.09z M12 15l-3-3m3 3l2 2m-2-2l2-2 M20 4s-7 0-10 10l2 2c10-3 10-10 10-10z"
+    rocket: "M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.71-2.13.09-2.91a2.18 2.18 0 0 0-3.09-.09z M12 15l-3-3m3 3l2 2m-2-2l2-2 M20 4s-7 0-10 10l2 2c10-3 10-10 10-10z",
+    sun: "M12 4V2M12 22v-2M4.22 4.22 5.64 5.64M18.36 18.36 19.78 19.78M2 12h2M20 12h2M4.22 19.78 5.64 18.36M18.36 5.64 19.78 4.22M12 8a4 4 0 1 1 0 8a4 4 0 0 1 0-8z",
+    cloud: "M17.5 19a4.5 4.5 0 0 0-.5-9h-1A6 6 0 1 0 7 15h10.5z",
+    leaf: "M12 2v20M19 5c-4 6-10 8-14 8c0 4 2 6 6 6c8 0 10-8 8-14z",
+    umbrella: "M4 12a8 8 0 0 1 16 0H4Zm8 0v7a2 2 0 1 0 4 0",
+    anchor: "M12 2v14m0-7a3 3 0 1 0 0-6a3 3 0 0 0 0 6Zm-7 3a7 7 0 0 0 14 0M5 12H3m16 0h2",
+    music: "M9 18V5l12-2v13M9 18a3 3 0 1 0 0 6a3 3 0 0 0 0-6Zm12-2a3 3 0 1 0 0 6a3 3 0 0 0 0-6Z",
+    coffee: "M3 8h13v7a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z M16 10h2a3 3 0 0 1 0 6h-2",
+    paw: "M11 6a2 2 0 1 1-4 0a2 2 0 0 1 4 0Zm6 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0ZM5 11a2 2 0 1 1-4 0a2 2 0 0 1 4 0Zm14 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0ZM12 12c-2 0-4 2-4 4c0 2 1.5 4 4 4s4-2 4-4c0-2-2-4-4-4Z",
+    book: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v14h-13.5A2.5 2.5 0 0 0 4 19.5Z",
+    key: "M21 7a5 5 0 1 0-9.58 1.65L5 15v4h4l6.42-6.42A5 5 0 0 0 21 7Zm-5 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z"
 };
 
 const LABELS = { 
     car: 'Auto', bus: 'Bus', bike: 'Bici', traffic: 'Semafori',
     plane: 'Aerei', gem: 'Gemme', ghost: 'Fantasmi',
-    moon: 'Lune', star: 'Stelle', heart: 'Cuori', rocket: 'Razzi'
+    moon: 'Lune', star: 'Stelle', heart: 'Cuori', rocket: 'Razzi',
+    sun: 'Soli', cloud: 'Nuvole', leaf: 'Foglie', umbrella: 'Ombrelli', anchor: 'Ancore',
+    music: 'Note', coffee: 'Caffè', paw: 'Impronte', book: 'Libri', key: 'Chiavi'
 };
 
 const MODES = {
@@ -24,6 +36,8 @@ const MODES = {
     ODD: { name: 'L\'Intruso', icon: 'search', desc: 'Trova l\'icona diversa' },
     SPEED: { name: 'Click Rapido', icon: 'zap', desc: 'Tocca prima che sparisca' },
     MEMORY: { name: 'Memoria', icon: 'brain', desc: 'Ricorda la posizione' },
+    FLASH: { name: 'Flash', icon: 'highlighter', desc: 'Memorizza i lampeggi e tocca' },
+    PAIRS: { name: 'Coppie', icon: 'grid', desc: 'Trova le coppie uguali' },
     SEQUENCE: { name: 'Sequenza', icon: 'list-ordered', desc: 'Riproduci l\'ordine mostrato' },
     SLIDE: { name: 'Scivolo', icon: 'arrow-down-circle', desc: 'Tocca le icone in caduta' },
     MIX: { name: 'Mix Caotico', icon: 'shuffle', desc: 'Sottogiochi casuali!' }
