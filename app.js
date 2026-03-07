@@ -47,7 +47,42 @@ function App() {
         if (p) setProfile(JSON.parse(p));
         const y = localStorage.getItem('captcha_ultra_yt');
         if (y) setYtUrl(y);
+
+        // Ripristina l'ultima partita salvata
+        const savedState = localStorage.getItem('captcha_ultra_state');
+        if (savedState) {
+            try {
+                const parsed = JSON.parse(savedState);
+                if (parsed.view) setView(parsed.view);
+                if (parsed.activeMode !== undefined) setActiveMode(parsed.activeMode);
+                if (parsed.currentGameType !== undefined) setCurrentGameType(parsed.currentGameType);
+                if (parsed.score !== undefined) setScore(parsed.score);
+                if (parsed.timer !== undefined) setTimer(parsed.timer);
+                if (parsed.level !== undefined) setLevel(parsed.level);
+                if (parsed.gameData) setGameData(parsed.gameData);
+            } catch (e) {
+                console.error('Errore nel ripristino dello stato', e);
+            }
+        }
     }, []);
+
+    // Salvataggio continuo dei progressi di gioco in locale
+    useEffect(() => {
+        const stateToPersist = {
+            view,
+            activeMode,
+            currentGameType,
+            score,
+            timer,
+            level,
+            gameData
+        };
+        try {
+            localStorage.setItem('captcha_ultra_state', JSON.stringify(stateToPersist));
+        } catch (e) {
+            console.error('Impossibile salvare lo stato locale', e);
+        }
+    }, [view, activeMode, currentGameType, score, timer, level, gameData]);
 
     const getYouTubeId = (url) => {
         try {
