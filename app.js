@@ -11,7 +11,7 @@ function App() {
     const [gameData, setGameData] = useState({ tiles: [], targetLabel: '' });
     const [profile, setProfile] = useState({ name: 'Utente', avatar: 'user' });
     const [showProfileModal, setShowProfileModal] = useState(false);
-    const [ytUrl, setYtUrl] = useState('https://www.youtube.com/watch?v=n61ULEU7CO0');
+    const [ytUrl, setYtUrl] = useState('https://www.youtube.com/live/jfKfPfyJRdk?si=2CshOA4Tx9L_1YnG');
     const [radioOn, setRadioOn] = useState(false);
     const canvasRef = useRef(null);
     const timerInterval = useRef(null);
