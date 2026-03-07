@@ -10,24 +10,26 @@ const ICON_DATA = {
     star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
     heart: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z",
     rocket: "M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.71-2.13.09-2.91a2.18 2.18 0 0 0-3.09-.09z M12 15l-3-3m3 3l2 2m-2-2l2-2 M20 4s-7 0-10 10l2 2c10-3 10-10 10-10z",
+    // nuove icone semplici e riconoscibili
     sun: "M12 4V2M12 22v-2M4.22 4.22 5.64 5.64M18.36 18.36 19.78 19.78M2 12h2M20 12h2M4.22 19.78 5.64 18.36M18.36 5.64 19.78 4.22M12 8a4 4 0 1 1 0 8a4 4 0 0 1 0-8z",
     cloud: "M17.5 19a4.5 4.5 0 0 0-.5-9h-1A6 6 0 1 0 7 15h10.5z",
-    leaf: "M12 2v20M19 5c-4 6-10 8-14 8c0 4 2 6 6 6c8 0 10-8 8-14z",
-    umbrella: "M4 12a8 8 0 0 1 16 0H4Zm8 0v7a2 2 0 1 0 4 0",
-    anchor: "M12 2v14m0-7a3 3 0 1 0 0-6a3 3 0 0 0 0 6Zm-7 3a7 7 0 0 0 14 0M5 12H3m16 0h2",
-    music: "M9 18V5l12-2v13M9 18a3 3 0 1 0 0 6a3 3 0 0 0 0-6Zm12-2a3 3 0 1 0 0 6a3 3 0 0 0 0-6Z",
-    coffee: "M3 8h13v7a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z M16 10h2a3 3 0 0 1 0 6h-2",
-    paw: "M11 6a2 2 0 1 1-4 0a2 2 0 0 1 4 0Zm6 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0ZM5 11a2 2 0 1 1-4 0a2 2 0 0 1 4 0Zm14 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0ZM12 12c-2 0-4 2-4 4c0 2 1.5 4 4 4s4-2 4-4c0-2-2-4-4-4Z",
-    book: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v14h-13.5A2.5 2.5 0 0 0 4 19.5Z",
-    key: "M21 7a5 5 0 1 0-9.58 1.65L5 15v4h4l6.42-6.42A5 5 0 0 0 21 7Zm-5 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z"
+    camera: "M5 7h14l-2 12H7L5 7z M9 5h6l1 2H8l1-2z M12 11a3 3 0 1 1 0 6a3 3 0 0 1 0-6",
+    chat: "M20 15a5 5 0 0 1-5 5H9l-4 3v-7a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5z",
+    phone: "M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.36 2.3.56 3.6.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C12.6 21 3 11.4 3 3a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.3.2 2.5.56 3.6a1 1 0 0 1-.24 1z",
+    triangle: "M12 3l9 18H3z",
+    hexagon: "M21 12l-4 7h-8l-4-7l4-7h8z",
+    battery: "M6 7h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm12 3h2v4h-2z",
+    calendar: "M6 4v2M18 4v2M4 9h16M5 6h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z",
+    tag: "M3 7v6l7 7 8-8-7-7H3zm5 1.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3z"
 };
 
 const LABELS = { 
     car: 'Auto', bus: 'Bus', bike: 'Bici', traffic: 'Semafori',
     plane: 'Aerei', gem: 'Gemme', ghost: 'Fantasmi',
     moon: 'Lune', star: 'Stelle', heart: 'Cuori', rocket: 'Razzi',
-    sun: 'Soli', cloud: 'Nuvole', leaf: 'Foglie', umbrella: 'Ombrelli', anchor: 'Ancore',
-    music: 'Note', coffee: 'Caffè', paw: 'Impronte', book: 'Libri', key: 'Chiavi'
+    sun: 'Soli', cloud: 'Nuvole', camera: 'Camera', chat: 'Chat',
+    phone: 'Telefono', triangle: 'Triangoli', hexagon: 'Esagoni',
+    battery: 'Batterie', calendar: 'Calendari', tag: 'Etichette'
 };
 
 const MODES = {
