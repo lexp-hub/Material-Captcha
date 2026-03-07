@@ -11,7 +11,9 @@ function App() {
     const [gameData, setGameData] = useState({ tiles: [], targetLabel: '' });
     const [profile, setProfile] = useState({ name: 'Utente', avatar: 'user' });
     const [showProfileModal, setShowProfileModal] = useState(false);
-    const [ytUrl, setYtUrl] = useState('https://www.youtube.com/live/jfKfPfyJRdk?si=2CshOA4Tx9L_1YnG');
+    const DEFAULT_YT_URL = 'https://www.youtube.com/live/jfKfPfyJRdk?si=coce4MIazDQLTi74';
+    const DEFAULT_VIDEO_ID = 'jfKfPfyJRdk';
+    const [ytUrl, setYtUrl] = useState(DEFAULT_YT_URL);
     const [radioOn, setRadioOn] = useState(false);
     const canvasRef = useRef(null);
     const timerInterval = useRef(null);
@@ -22,7 +24,7 @@ function App() {
                 window.player = new YT.Player('youtube-player', {
                     height: '0', 
                     width: '0', 
-                    videoId: getYouTubeId(ytUrl) || 'n61ULEU7CO0',
+                    videoId: getYouTubeId(ytUrl) || DEFAULT_VIDEO_ID,
                     playerVars: { 
                         'autoplay': 0, 
                         'controls': 0, 
@@ -88,8 +90,8 @@ function App() {
         try {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : 'n61ULEU7CO0';
-        } catch { return 'n61ULEU7CO0'; }
+            return (match && match[2].length === 11) ? match[2] : DEFAULT_VIDEO_ID;
+        } catch { return DEFAULT_VIDEO_ID; }
     };
 
     useEffect(() => {
@@ -286,8 +288,8 @@ function App() {
     };
 
     return (
-        <div className="w-full h-full flex flex-col fade-in">
-            <header className="pattern-bg p-6 sm:p-8 pt-10 sm:pt-12 pb-12 sm:pb-16 rounded-b-[40px] sm:rounded-b-[60px] shadow-2xl relative z-30">
+        <div className="w-full h-full flex flex-col fade-in app-shell">
+            <header className="pattern-bg p-6 sm:p-8 pt-10 sm:pt-12 pb-12 sm:pb-16 rounded-b-[40px] sm:rounded-b-[60px] shadow-2xl relative z-30 mobile-header">
                 <div className="flex justify-between items-center text-white max-w-5xl mx-auto w-full">
                     <div className="flex items-center gap-3 sm:gap-6">
                         <button onClick={() => setView('menu')} className="w-10 h-10 sm:w-14 sm:h-14 glass-panel flex items-center justify-center text-white border-white/20 hover:bg-white/30 active:scale-90 transition-all">
@@ -314,9 +316,9 @@ function App() {
                 )}
             </header>
 
-            <main className="flex-1 px-4 sm:px-8 -mt-8 sm:-mt-10 overflow-hidden relative z-20 max-w-6xl mx-auto w-full">
+            <main className="flex-1 px-4 sm:px-8 -mt-8 sm:-mt-10 overflow-hidden relative z-20 max-w-6xl mx-auto w-full app-main">
                 {view === 'menu' && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 h-full overflow-y-auto custom-scroll pb-20 pt-4 px-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 h-full overflow-y-auto custom-scroll pb-20 pt-4 px-1 menu-grid">
                         <div className="sm:col-span-2 lg:col-span-3 bg-white/80 backdrop-blur-md game-card p-6 sm:p-10 text-center border-none shadow-2xl mb-1 sm:mb-2">
                             <h2 className="text-2xl sm:text-4xl font-black text-[#21005D]">Pronto alla sfida?</h2>
                             <p className="text-sm sm:text-lg text-gray-500 font-medium italic mt-2 sm:mt-3">Metti alla prova i tuoi riflessi!</p>
