@@ -6,7 +6,7 @@
 
 ## 🚀 Panoramica
 
-**Captcha Chaos Ultra** è un'applicazione web interattiva costruita con **React** e **Tailwind CSS**. Il gioco sfida l'utente a risolvere mini-puzzle basati su icone nel minor tempo possibile. Più sei veloce, più alto sarà il punteggio!
+**Captcha Chaos** è un'applicazione web interattiva costruita con **React** e **Tailwind CSS**. Il gioco sfida l'utente a risolvere mini-puzzle basati su icone nel minor tempo possibile. Più sei veloce, più alto sarà il punteggio!
 
 ### 🎮 Modalità di Gioco
 
@@ -27,6 +27,7 @@ Il gioco include 6 modalità uniche per testare diverse abilità cognitive:
 * **Radio Integrata:** Player YouTube integrato per ascoltare musica (es. Lo-Fi radio) durante le sessioni di gioco, con visualizzatore animato.
 * **Persistenza Dati:** I tuoi record personali e il profilo utente vengono salvati automaticamente nel `localStorage` del browser.
 * **Responsive Design:** Ottimizzato per desktop, tablet e smartphone grazie a Tailwind CSS.
+* **Simboli SVG:** Sono codici SVG (Scalable Vector Graphics) che descrivono forme, comunemente usate in interfacce web e app. 
 
 
 ## 🛠️ Tecnologie Utilizzate
